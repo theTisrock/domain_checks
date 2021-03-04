@@ -1,3 +1,13 @@
+# Prerequisites
+
+note: Instructions are based on an Ubuntu Linux Envionrnment. The process should be similar on Mac OS.
+Unbound has an installer that can be downloaded for Windows.
+<ol>
+    <li>Download the Unbound DNS Resolver: <a>https://www.nlnetlabs.nl/projects/unbound/about/</a></li>
+    <li>Unpack/unzip the downloaded tarball.</li>
+    <li>Setup and compile the resolver: <a>https://www.nlnetlabs.nl/documentation/unbound/howto-setup/</a></li>
+</ol>
+
 # domain_checks
 Uses Unbound DNS Resolver to perform DNS record checks &amp; host connectivity checks.
 
