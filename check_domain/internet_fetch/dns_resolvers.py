@@ -239,14 +239,14 @@ class Resolver(object):
         name_list = None
         if associated_with == "ns":
             ns_list = None
-            if self.get_ns(domain).get_response()['answer'] is not None:
-                ns_list = list(self.get_ns(domain).get_response()['answer'].values())
+            if self.get_ns(domain)['answer'] is not None:
+                ns_list = list(self.get_ns(domain)['answer'].values())
             name_list = ns_list
             formatted_answer['rr_types'].append("ns")
         elif associated_with == "mx":
             mx_list = None
-            if self.get_mx(domain).get_response()['answer'] is not None:
-                mx_list = list(self.get_mx(domain).get_response()['answer'].values())
+            if self.get_mx(domain)['answer'] is not None:
+                mx_list = list(self.get_mx(domain)['answer'].values())
             name_list = mx_list
             formatted_answer['rr_types'].append("mx")
 
@@ -259,7 +259,7 @@ class Resolver(object):
             i = 0
             formatted_answer['answer'] = {}
             for name in name_list:
-                ip4_dict = self.get_a_records(name).get_response()  # None or valid ip4 address returned
+                ip4_dict = self.get_a_records(name) # None or valid ip4 address returned
                 if ip4_dict['answer'] is not None:
                     formatted_answer['answer'][name] = ip4_dict['answer'].get(i)
                 else:
@@ -270,7 +270,8 @@ class Resolver(object):
                     continue
         if as_json:
             return json.dumps(formatted_answer)
-        return DNSHostMappingFormattedResponse(formatted_answer)
+        # return DNSHostMappingFormattedResponse(formatted_answer)
+        return formatted_answer
 
     # dnssec
     def dnssec_comprehensive(self, domain: str, as_json: bool = False):
