@@ -136,14 +136,14 @@ class DomainChecker(object):
         return state
 
     def mx_ipv4_exist(self, domain: str, as_json=False):
-        response = self.dns.get_ipv4_mapping(domain=domain, associated_with="mx")
-        state = IPV4ExistState(response)
+        return self.dns.get_ipv4_mapping(domain=domain, associated_with="mx")
+        # state = IPV4ExistState(response)
 
-        if as_json is True:
-            mx_ipv4_exist = {'mx_ipv4_exist': response.get_response()}
-            return json.dumps(mx_ipv4_exist)
-
-        return state
+        # if as_json is True:
+        #     mx_ipv4_exist = {'mx_ipv4_exist': response.get_response()}
+        #     return json.dumps(mx_ipv4_exist)
+        #
+        # return state
 
     def mx_ipv4_reach(self, domain: str, as_json=False):
         dns_host_map = self.dns.get_ipv4_mapping(domain=domain, associated_with="mx")
