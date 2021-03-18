@@ -31,7 +31,7 @@ class Resolver(object):
     def __init__(self):
         pass
 
-    def get_a_records(self, domain: str):
+    def get_a_records(self, domain: str, as_json: bool = False):
         """
         Accepts domain: str. Returns a formatted answer including dictionary of A records in the format:
         {'domain': 'example.com', 'rr_types':['a'], 'answer': ['1.1.1.1', '2.2.2.2', '3.3.3.3' ... etc]}.
@@ -52,11 +52,12 @@ class Resolver(object):
             for ip in ipv4_addr_list:
                 formatted_answer['answer'][i] = ip
                 i += 1
-        # if as_json:
-        #     return json.dumps(formatted_answer)
+        if as_json:
+            return json.dumps(formatted_answer)
+        # return DNSFormattedResponse(formatted_answer)
         return formatted_answer
 
-    def get_aaaa_records(self, domain: str):
+    def get_aaaa_records(self, domain: str, as_json: bool = False):
         """
         Accepts domain: str. Returns a formatted answer including dictionary of A records in the format:
         {'domain': 'example.com', 'rr_types':['aaaa'], 'answer': ['f::0', 'f::1', 'f::2' ... etc]}.
@@ -77,8 +78,9 @@ class Resolver(object):
                 if ip_helper.V6.is_valid(ip):
                     formatted_answer['answer'][i] = ip_helper.V6.bytes_to_hexadectet(ip)
                 i += 1
-        # if as_json:
-        #     return json.dumps(formatted_answer)
+        if as_json:
+            return json.dumps(formatted_answer)
+        # return DNSFormattedResponse(formatted_answer)
         return formatted_answer
 
     # no exposed json for this private method below
@@ -94,6 +96,7 @@ class Resolver(object):
             raise DNSResolveError(f"Error resolving AAAA record for {domain}: {ub.ub_strerror(status)}")
         elif results.havedata == 1 and ip_helper.V6.is_valid(results.rawdata[0]):
             ipv6_bytes = results.rawdata[0]
+            # return results
 
         return ipv6_bytes
 
@@ -144,8 +147,9 @@ class Resolver(object):
             for each in ns_list:
                 formatted_answer['answer'][i] = each
                 i += 1
-        # if as_json:
-        #     return json.dumps(formatted_answer)
+        if as_json:
+            return json.dumps(formatted_answer)
+        # return DNSFormattedResponse(formatted_answer)
         return formatted_answer
 
     def get_mx(self, domain: str, as_json: bool = False):
@@ -168,15 +172,14 @@ class Resolver(object):
             for priority, name in mx_list:
                 formatted_answer['answer'][i] = name
                 i += 1
-        # if as_json:
-        #     return json.dumps(formatted_answer)
+        if as_json:
+            return json.dumps(formatted_answer)
+        # return DNSFormattedResponse(formatted_answer)
         return formatted_answer
 
     # methods below this line use unbound indirectly. They use methods in this class as their dependencies.
 
     # dns host mapping for use with reachability
-    # These are COMPOUND DNS queries that rely on the above methods
-    # TODO remove formatted response classes
     def get_ipv6_mapping(self, domain: str, associated_with: str, as_json: bool = False):
         """
         Accepts a domain, a type of host to associate an ip address with, and optionally 'as_json=True' to output json.
