@@ -96,14 +96,12 @@ class DomainChecker(object):
         return state
 
     def ns_ipv4_exist(self, domain: str, as_json=False):
-        response = self.dns.get_ipv4_mapping(domain=domain, associated_with="ns")
-        state = IPV4ExistState(response)
+        return self.dns.get_ipv4_mapping(domain=domain, associated_with="ns")
+        # state = IPV4ExistState(response)
 
-        if as_json is True:
-            ns_ipv4_exist = {'ns_ipv4_exist': response.get_response()}
-            return json.dumps(ns_ipv4_exist)
-
-        return state
+        # if as_json is True:
+        #     ns_ipv4_exist = {'ns_ipv4_exist': response}
+        #     return json.dumps(ns_ipv4_exist)
 
     def ns_ipv4_reach(self, domain: str, as_json=False):
         dns_host_map = self.dns.get_ipv4_mapping(domain=domain, associated_with="ns")

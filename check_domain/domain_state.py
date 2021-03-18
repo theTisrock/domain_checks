@@ -12,7 +12,7 @@ class BaseState(object):
     any query on/to a domain, host, or Dmarcian API. All states inherit this state."""
 
     def __init__(self, formatted_answer):
-        self.formatted_answer = formatted_answer.get_response()
+        self.formatted_answer = formatted_answer
         self.domain = self.formatted_answer.get('domain')
         self.state_timestamp = datetime.utcnow()
 
@@ -50,10 +50,10 @@ class DNSHostGroupState(BaseState):
     Sibling to: DomainAuthenticityState, DNSSECSignaturesState, DNSSECValidatedState"""
 
     def __init__(self, formatted_answer):
-        if not isinstance(formatted_answer, DNSHostMappingFormattedResponse) and not \
-                isinstance(formatted_answer, HostFormattedResponse):
-            raise TypeError("DNSHostMappingFormattedResponse or HostFormattedResponse are required."
-                            f" Found {type(formatted_answer)}")
+        # if not isinstance(formatted_answer, DNSHostMappingFormattedResponse) and not \
+        #         isinstance(formatted_answer, HostFormattedResponse):
+        #     raise TypeError("DNSHostMappingFormattedResponse or HostFormattedResponse are required."
+        #                     f" Found {type(formatted_answer)}")
         BaseState.__init__(self, formatted_answer)
         self.host_type = self.formatted_answer['rr_types'][0]
         self.report = None
@@ -127,14 +127,14 @@ class IPV4ExistState(DNSHostGroupState):
     Parent to: None.
     Sibling to: IPV6ExistState, IPV4ReachState, IPV6ReachState"""
 
-    def __init__(self, dns_formatted_answer: DNSHostMappingFormattedResponse):
-        if not isinstance(dns_formatted_answer, DNSHostMappingFormattedResponse):
-            raise TypeError("IPV4ExistState requires DNSHostMappingFormattedResponse "
-                            "from get_ipv4_mapping() method in Resolver class.")
-        DNSHostGroupState.__init__(self, dns_formatted_answer)
-        if dns_formatted_answer.get_response()['rr_types'][1] != "a":
+    def __init__(self, formatted_answer):
+        # if not isinstance(formatted_answer, DNSHostMappingFormattedResponse):
+        #     raise TypeError("IPV4ExistState requires DNSHostMappingFormattedResponse "
+        #                     "from get_ipv4_mapping() method in Resolver class.")
+        DNSHostGroupState.__init__(self, formatted_answer)
+        if formatted_answer['rr_types'][1] != "a":
             raise ValueError(f"dns answer does not indicate ipv4 ('a') according to the given rr_types: "
-                             f"{dns_formatted_answer.get_response()['rr_types']}")
+                             f"{formatted_answer['rr_types']}")
         self.elements_present = self._load_elements_present()
         self.elements_missing = self._load_elements_missing()
 
