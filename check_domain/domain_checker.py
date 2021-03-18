@@ -5,44 +5,44 @@ import json
 
 
 class DomainChecker(object):
-"""Pieces together bottom level services to perform customized top level tasks (domain checking)."""
+    """Pieces together bottom level services to perform customized top level tasks (domain checking)."""
 
-    dmarcian = DmarcianClient(BASE_URL, TOKEN)  # singletons for connecting underlying, decoupled code to top level requests
+    # dmarcian = DmarcianClient(BASE_URL, TOKEN)  # singletons for connecting underlying, decoupled code to top level requests
     dns = Resolver()
     hosts = Reacher()
 
     def __init__(self):
         pass
 
-    def dkim(self, domain: str, selector: str, as_json=False):
-        response = self.dmarcian.inspect_dkim(domain=domain, selector=selector)
-        state = DKIMState(response)
-
-        if as_json is True:
-            dkim = {'dkim': response.get_response()}
-            return json.dumps(dkim)
-
-        return state
-
-    def spf(self, domain: str, as_json=False):
-        response = self.dmarcian.inspect_spf(domain=domain)
-        state = SPFState(response)
-
-        if as_json is True:
-            spf = {'spf': response.get_response()}
-            return json.dumps(spf)
-
-        return state
-
-    def dmarc(self, domain: str, as_json=False):
-        response = self.dmarcian.inspect_dmarc(domain=domain)
-        state = DMARCState(response)
-
-        if as_json is True:
-            dmarc = {'dmarc': response.get_response()}
-            return json.dumps(dmarc)
-
-        return state
+    # def dkim(self, domain: str, selector: str, as_json=False):
+    #     response = self.dmarcian.inspect_dkim(domain=domain, selector=selector)
+    #     state = DKIMState(response)
+    #
+    #     if as_json is True:
+    #         dkim = {'dkim': response.get_response()}
+    #         return json.dumps(dkim)
+    #
+    #     return state
+    #
+    # def spf(self, domain: str, as_json=False):
+    #     response = self.dmarcian.inspect_spf(domain=domain)
+    #     state = SPFState(response)
+    #
+    #     if as_json is True:
+    #         spf = {'spf': response.get_response()}
+    #         return json.dumps(spf)
+    #
+    #     return state
+    #
+    # def dmarc(self, domain: str, as_json=False):
+    #     response = self.dmarcian.inspect_dmarc(domain=domain)
+    #     state = DMARCState(response)
+    #
+    #     if as_json is True:
+    #         dmarc = {'dmarc': response.get_response()}
+    #         return json.dumps(dmarc)
+    #
+    #     return state
 
     def dnssec_signatures(self, domain: str, as_json=False):
         response = self.dns.get_dnssec_sigs(domain=domain)

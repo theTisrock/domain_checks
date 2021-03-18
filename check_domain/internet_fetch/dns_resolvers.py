@@ -3,7 +3,7 @@
 import json
 import unbound as ub
 from ..internet_fetch import ip_helper
-from ...domain_checks.config import Config
+from ..config import Config
 from ..formatted_response import DNSFormattedResponse, DNSHostMappingFormattedResponse
 from ..formatted_response import DNSSECSignaturesFormattedResponse, DNSSECValidatedFormattedResponse, DNSSECFormattedResponse
 
