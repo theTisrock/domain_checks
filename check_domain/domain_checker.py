@@ -48,19 +48,11 @@ class DomainChecker(object):
         response = self.dns.get_dnssec_sigs(domain=domain)
         state = DNSSECSignaturesFormattedResponse(response)
 
-        # if as_json is True:
-        #     dnssec_sig = {'dnssec_signatures': response.get_response()}
-        #     return json.dumps(dnssec_sig)
-
         return state
 
     def dnssec_valid(self, domain: str, as_json=False):
         response = self.dns.dnssec_validate(domain=domain)
         state = DNSSECValidatedState(response)
-
-        # if as_json is True:
-        #     dnssec_valid = {'dnssec_valid': response.get_response()}
-        #     return json.dumps(dnssec_valid)
 
         return state
 
@@ -68,19 +60,11 @@ class DomainChecker(object):
         response = self.dns.dnssec_comprehensive(domain=domain)
         state = DNSSECState(response)
 
-        # if as_json is True:
-        #     dnssec = {'dnssec': response.get_response()}
-        #     return json.dumps(dnssec)
-
         return state
 
     def ns_ipv6_exist(self, domain: str, as_json=False):
         response = self.dns.get_ipv6_mapping(domain=domain, associated_with="ns")
         state = IPV6ExistState(response)
-
-        # if as_json is True:
-        #     ns_ipv6_exist = {'ns_ipv6_exist': response.get_response()}
-        #     return json.dumps(ns_ipv6_exist)
 
         return state
 
@@ -89,38 +73,21 @@ class DomainChecker(object):
         response = self.hosts.reach_dns_hosts(dns_host_map)
         state = IPV6ReachState(response)
 
-        # if as_json is True:
-        #     ns_ipv6_reach = {'ns_ipv6_reach': response.get_response()}
-        #     return json.dumps(ns_ipv6_reach)
-
         return state
 
     def ns_ipv4_exist(self, domain: str, as_json=False):
         return self.dns.get_ipv4_mapping(domain=domain, associated_with="ns")
-        # state = IPV4ExistState(response)
-
-        # if as_json is True:
-        #     ns_ipv4_exist = {'ns_ipv4_exist': response}
-        #     return json.dumps(ns_ipv4_exist)
 
     def ns_ipv4_reach(self, domain: str, as_json=False):
         dns_host_map = self.dns.get_ipv4_mapping(domain=domain, associated_with="ns")
         response = self.hosts.reach_dns_hosts(dns_host_map)
         state = IPV4ReachState(response)
 
-        # if as_json is True:
-        #     ns_ipv4_reach = {'ns_ipv4_reach': response.get_response()}
-        #     return json.dumps(ns_ipv4_reach)
-
         return state
 
     def mx_ipv6_exist(self, domain: str, as_json=False):
         response = self.dns.get_ipv6_mapping(domain=domain, associated_with="mx")
         state = IPV6ExistState(response)
-
-        # if as_json is True:
-        #     mx_ipv6_exist = {'mx_ipv6_exist': response.get_response()}
-        #     return json.dumps(mx_ipv6_exist)
 
         return state
 
@@ -129,30 +96,15 @@ class DomainChecker(object):
         response = self.hosts.reach_dns_hosts(dns_host_map)
         state = IPV6ReachState(response)
 
-        # if as_json is True:
-        #     mx_ipv6_reach = {'mx_ipv6_reach': response.get_response()}
-        #     return json.dumps(mx_ipv6_reach)
-
         return state
 
     def mx_ipv4_exist(self, domain: str, as_json=False):
         return self.dns.get_ipv4_mapping(domain=domain, associated_with="mx")
-        # state = IPV4ExistState(response)
-
-        # if as_json is True:
-        #     mx_ipv4_exist = {'mx_ipv4_exist': response.get_response()}
-        #     return json.dumps(mx_ipv4_exist)
-        #
-        # return state
 
     def mx_ipv4_reach(self, domain: str, as_json=False):
         dns_host_map = self.dns.get_ipv4_mapping(domain=domain, associated_with="mx")
         response = self.hosts.reach_dns_hosts(dns_host_map)
         state = IPV4ReachState(response)
-
-        # if as_json is True:
-        #     mx_ipv4_reach = {'mx_ipv4_reach': response.get_response()}
-        #     return json.dumps(mx_ipv4_reach)
 
         return state
 
