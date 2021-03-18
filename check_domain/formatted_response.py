@@ -116,6 +116,3 @@ class DNSSECValidatedFormattedResponse(DNSSECFormattedResponse):
 
     def __init__(self, dnssec_validation):
         super(DNSSECValidatedFormattedResponse, self).__init__(dnssec_validation)
-
-# end
-
